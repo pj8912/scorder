@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Recoding</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <p>
+        <button id="start">Start Capture</button>&nbsp;<button id="stop">
+            Stop Capture
+        </button>
+    </p>
+    <p>
+        <button id="videoCapture">
+            Enable Video Capture
+        </button>
+        <button class="startRecord">Start Record</button>
+        &nbsp;
+        <button class="stopRecord">Stop Record</button>
+    </p>
+
+
+
+    <div class="max-view">
+        <div id="mydiv">
+            <video class="videoscreen" style="width:inherit;height:inherit" controls>
+            </video>
+        </div>
+        <video id="video" style="width:100%;height:100%" autoplay></video>
+    </div>
+    <canvas style="width: fit-content;
+    height: 600px;"></canvas>
+
+
+    <hr>
+
+    <video id="playback" autoplay controls>
+        <source id="vidsrc">
+    </video>
+
+    <script src="test.js"></script>
+</body>
+
+</html>

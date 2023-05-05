@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvas {
+            margin: 0 auto;
+            position: relative;
+            width: 900px;
+            height: 700px;
+            margin-top: 100px;
+            padding: 20px;
+            border: 1px solid #eee;
+            display: block;
+            margin: 0 auto;
+            background: black;
+        }
+
+        video {
+            width: inherit;
+            height: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        <button id="sc">Screen Capture</button>
+    </p>
+    <canvas id="canvas" align="center"></canvas>
+
+    <script>
+
+
+
+
+
+        const canvas = document.getElementById('canvas');
+
+        const sc = document.querySelector('#sc');
+
+        sc.onclick = () => {
+            const videox = document.createElement('video');
+            // videox.autoplay = true;
+            // videox.controls = true;
+
+            // videox.loop = true;
+            // videox.muted = true;
+            videox.setAttribute("id", "videox")
+            videox.style.position = 'absolute';
+            videox.style.top = '0';
+            videox.style.left = '0';
+            videox.style.zIndex = '10';
+            const displayMediaOptions = {
+                video: {
+                    displaySurface: "window",
+                },
+                audio: false,
+            };
+            try {
+                videox.src = navigator.mediaDevices.getDisplayMedia(
+                    displayMediaOptions
+                );
+                videox.autoplay = true;
+                videox.controls = true;
+                canvas.parentNode.insertBefore(videox, canvas);
+
+
+
+
+
+            } catch (err) {
+                console.error(err);
+            }
+            dragElement(document.querySelector("#videox"));
+        }
+
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            elmnt.onmousedown = dragMouseDown;
+
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+
+</html>

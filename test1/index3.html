@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvas {
+            width: 100%;
+            height: 900px;
+            padding: 20px;
+            /* padding: 10px; */
+            border: 1px solid #eee;
+            display: block;
+            margin: 0 auto;
+            margin-top: 100px;
+            /* background: black; */
+
+        }
+
+        video {
+            width: inherit;
+            height: inherit;
+        }
+    </style>
+</head>
+
+<!-- 
+<video class="videoscreen" style="width:100px;height:100px" controls>
+</video> -->
+<canvas id="canvas"></canvas>
+
+<script>
+
+    const canvas = document.getElementById('canvas');
+
+    const video = document.createElement('video');
+    video.src = 'http://localhost:4000/test1/UCL.mp4';
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    // video.style.position = 'absolute';
+
+
+    // const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let isDragging = false;
+    let offset = { x: 0, y: 0 };
+    // canvas.parentNode.insertBefore(video, canvas);
+
+
+
+    // Draw video on canvas
+    // ctx.scale(1, 1);
+
+    canvas.parentNode.insertBefore(video, canvas)
+    function drawVideo() {
+        video.controls = true;
+        // ctx.drawImage(dragElement(document.querySelector("videoscreen")), 0 , 0)
+        ctx.drawImage(video, 0, 0,  canvas.width, canvas.height);
+        requestAnimationFrame(drawVideo);
+        video.style.display = "none"
+
+    }
+
+    // Check if mouse is inside canvas
+    // function isInsideCanvas(x, y) {
+    //     const rect = canvas.getBoundingClientRect();
+    //     return x > rect.left && x < rect.right && y > rect.top && y < rect.bottom;
+
+    // }
+
+    // Mouse event listeners
+    // canvas.addEventListener('mousedown', e => {
+    //     if (isInsideCanvas(e.clientX, e.clientY)) {
+    //         isDragging = true;
+    //         offset.x = e.clientX - video.offsetLeft;
+    //         offset.y = e.clientY - video.offsetTop;
+    //     }
+    // });
+
+    // document.addEventListener('mouseup', e => {
+    //     isDragging = false;
+    // });
+
+    // document.addEventListener('mousemove', e => {
+    //     if (isDragging) {
+    //         const x = e.clientX - offset.x;
+    //         const y = e.clientY - offset.y;
+    //         const maxX = canvas.width - video.offsetWidth;
+    //         const maxY = canvas.height - video.offsetHeight;
+    //         video.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+    //         video.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
+    //     }
+    // });
+
+    // Start drawing video on canvas
+    // video.style.display = "none"
+    video.addEventListener('play', drawVideo);
+    // ctx.drawImage(dragElement(document.querySelector("videoscreen")), 0, 0, canvas.width, canvas.height)
+
+
+
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        elmnt.onmousedown = dragMouseDown;
+
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            /* stop moving when mouse button is released:*/
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+
+
+    function hoveringVideo() {
+        ctx.drawImage(dragElement(document.getElementById(".videoscreen")), 0, 0, canvas.width, canvas.height)
+        requestAnimationFrame(hoveringVideo);
+    }
+    hoveringVideo();
+</script>
